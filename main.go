@@ -6,9 +6,12 @@ import (
 	"io/ioutil"
 	"strings"
 	"strconv"
+	"bufio"
+	"os"
 )
 
 func main() {
+	// 读取文件解析
 	bytes, err := ioutil.ReadFile("./list.txt")
 	if err != nil {
 		fmt.Println("文件list.txt读取失败.")
@@ -22,6 +25,8 @@ func main() {
 		fmt.Println("文件内容为空")
 		return
 	}
+
+	// 排除掉不符合条件的成员
 	var m []string
 	for _,v := range members {
 		if(len(v) > 0) {
@@ -34,7 +39,45 @@ func main() {
 		return
 	}
 
-	fmt.Println("当前成员列表如下:")
-	fmt.Println(m)
-	fmt.Println("请按回车确认")
+	// 用户确认是否正确
+	confirmMemberMsg := fmt.Sprintf("当前一共有%s个成员,列表如下:")
+	fmt.Println(confirmMemberMsg)
+	i := 1
+	for _, v := range m {
+		fmt.Println(strconv.Itoa(i) + ":" + v)
+		i++
+	}
+
+	if confirmMember() == "n" {
+		fmt.Println("Bye-bye.")
+		return
+	}
+}
+
+func confirmMember() string {
+	fmt.Print("请确认[y/n]:")
+
+	confirm := false
+	result := ""
+
+	reader := bufio.NewReader(os.Stdin)
+	data, _, _ := reader.ReadLine()
+	command := string(data)
+
+	for !confirm {
+		if command == "y" || command == "Y" {
+			confirm, result = true, "y"
+			break
+		} else if command == "n" || command == "N" {
+			confirm, result = true, "n"
+			break
+		} else {
+			fmt.Print("请输入[y/n]:")
+			data, _, _ := reader.ReadLine()
+			command = string(data)
+		}
+
+	}
+
+	return result
 }
