@@ -32,14 +32,15 @@ func main() {
 			m = append(m, v)
 		}
 	}
-	if len(m) < 2 {
-		notice := fmt.Sprintf("成员数量是:%s, 不符合要求", strconv.Itoa(len(m)))
+	var totalM int = len(m)
+	if totalM < 2 {
+		notice := fmt.Sprintf("成员数量是:%s, 不符合要求", strconv.Itoa(totalM))
 		fmt.Println(notice)
 		return
 	}
 
 	// 用户确认是否正确
-	confirmMemberMsg := fmt.Sprintf("当前一共有%s个成员,列表如下:")
+	confirmMemberMsg := fmt.Sprintf("当前一共有%s个成员,列表如下:", strconv.Itoa(totalM))
 	fmt.Println(confirmMemberMsg)
 	i := 1
 	for _, v := range m {
@@ -53,7 +54,10 @@ func main() {
 	}
 
 	// 用户选择每天值班人数
+	numsOneDay := setNumsOneDay(totalM)
 
+	// 执班总天数
+	fmt.Println(numsOneDay)
 }
 
 func confirmMember() string {
@@ -75,7 +79,7 @@ func confirmMember() string {
 			break
 		} else {
 			fmt.Print("请输入[y/n]:")
-			data, _, _ := reader.ReadLine()
+			data, _, _ = reader.ReadLine()
 			command = string(data)
 		}
 
@@ -83,3 +87,35 @@ func confirmMember() string {
 
 	return result
 }
+
+func setNumsOneDay(max int) int {
+	fmt.Print("请输入每天值班人数:")
+
+	confirm := false
+	reader := bufio.NewReader(os.Stdin)
+	data, _, _ := reader.ReadLine()
+	command := string(data)
+
+
+	var result int
+	var num int
+
+	for !confirm {
+		nums, err := strconv.ParseInt(command, 10, 8)
+		num = int(nums)
+		if err != nil || num < 1 || num >= max {
+			fmt.Print("请输入每天值班人数,需大于0小于成员数:")
+			data, _, _ = reader.ReadLine()
+			command = string(data)
+		} else {
+			confirm, result = true, num
+			break
+		}
+
+	}
+
+	return result
+
+}
+
+//func totalDay
