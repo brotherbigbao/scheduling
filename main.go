@@ -1,7 +1,6 @@
 package main
 
 import (
-	//"os"
 	"fmt"
 	"io/ioutil"
 	"strings"
@@ -52,6 +51,9 @@ func main() {
 		fmt.Println("Bye-bye.")
 		return
 	}
+
+	// 用户选择每天值班人数
+
 }
 
 func confirmMember() string {
