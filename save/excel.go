@@ -41,15 +41,14 @@ func SaveExcel(data []interface{}) (string, error) {
 	}
 
 
-	runFile, _ := exec.LookPath(os.Args[0])
-	runPath, _ := filepath.Abs(runFile)
-	index := strings.LastIndex(runPath, string(os.PathSeparator))
-	runPathDir := runPath[:index]
-	//fmt.Println(runPathDir)
-	//fmt.Println(runtime.GOOS)
+	//runFile, _ := exec.LookPath(os.Args[0])
+	//runPath, _ := filepath.Abs(runFile)
+	//index := strings.LastIndex(runPath, string(os.PathSeparator))
+	//runPathDir := runPath[:index]
 
 	t := time.Now()
-	fileName = runPathDir + string(os.PathSeparator) + strconv.Itoa(t.Nanosecond()) + ".xlsx"
+	//fileName = runPathDir + string(os.PathSeparator) + strconv.Itoa(t.Nanosecond()) + ".xlsx"
+	fileName = strconv.Itoa(t.Nanosecond()) + ".xlsx"
 
 	err = file.Save(fileName)
 	if err != nil {

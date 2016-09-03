@@ -79,6 +79,8 @@ func main() {
 	}else{
 		fmt.Println("数据成功保存到:" + fileName + ", 再会")
 	}
+
+	endNotice()
 }
 
 func confirmMember() string {
@@ -171,4 +173,10 @@ func setTotalDay(numsOneDay, totalM int) int {
 	}
 
 	return result
+}
+
+func endNotice() {
+	fmt.Println("按任意键结束")
+	reader := bufio.NewReader(os.Stdin)
+	reader.ReadLine()
 }
