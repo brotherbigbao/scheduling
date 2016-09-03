@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"bufio"
 	"os"
+	"github.com/dabao1989/scheduling/schedule"
 )
 
 func main() {
@@ -57,7 +58,16 @@ func main() {
 	numsOneDay := setNumsOneDay(totalM)
 
 	// 执班总天数
-	fmt.Println(numsOneDay)
+	totalDay := setTotalDay(numsOneDay, totalM)
+
+	// 用户确认
+	numsOneDayNotice := fmt.Sprintf("你输入的每天值班人数是:%s, 总值班天数是:%s", strconv.Itoa(numsOneDay), strconv.Itoa(totalDay))
+	fmt.Println(numsOneDayNotice)
+	fmt.Println("正在生成排班计划,请稍等...")
+
+	schedule := schedule.Schedule{}
+	schedule.Create(m, numsOneDay, totalDay)
+	return
 }
 
 func confirmMember() string {
@@ -119,3 +129,35 @@ func setNumsOneDay(max int) int {
 }
 
 //func totalDay
+func setTotalDay(numsOneDay, totalM int) int {
+	fmt.Print("请输入值班总天数:")
+	confirm := false
+	reader := bufio.NewReader(os.Stdin)
+	data, _, _ := reader.ReadLine()
+	command := string(data)
+
+	var result int
+	var total int
+
+	for !confirm {
+		totalT, err := strconv.ParseInt(command, 10, 8)
+		total = int(totalT)
+		ava := (total*numsOneDay)/totalM //平均每人要值班几天
+		if err == nil && ava > 0 {
+			result = (ava*totalM)/numsOneDay
+			confirm = true
+			break
+		} else {
+			fmt.Print("请输入值班总天数:")
+			data, _, _ = reader.ReadLine()
+			command = string(data)
+		}
+	}
+
+	if total != result {
+		noticeMsg := fmt.Sprintf("由于你输入的天数%s不能保证每人值班天数相同,已自动设为%s天", strconv.Itoa(total), strconv.Itoa(result))
+		fmt.Println(noticeMsg)
+	}
+
+	return result
+}
