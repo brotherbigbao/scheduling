@@ -49,7 +49,7 @@ func SaveExcel(data []interface{}) (string, error) {
 	//fmt.Println(runtime.GOOS)
 
 	t := time.Now()
-	fileName = runPathDir + string(os.PathSeparator) + t.String() + ".xlsx"
+	fileName = runPathDir + string(os.PathSeparator) + strconv.Itoa(t.Nanosecond()) + ".xlsx"
 
 	err = file.Save(fileName)
 	if err != nil {
