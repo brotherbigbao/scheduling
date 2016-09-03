@@ -8,7 +8,8 @@ import (
 	"os/exec"
 	"path/filepath"
 	"os"
-	"runtime"
+	//"runtime"
+	"strings"
 )
 
 func SaveExcel(data []interface{}) (string, error) {
@@ -42,17 +43,13 @@ func SaveExcel(data []interface{}) (string, error) {
 
 	runFile, _ := exec.LookPath(os.Args[0])
 	runPath, _ := filepath.Abs(runFile)
-	fmt.Println(runPath)
-	fmt.Println(runtime.GOOS)
+	index := strings.LastIndex(runPath, string(os.PathSeparator))
+	runPathDir := runPath[:index]
+	//fmt.Println(runPathDir)
+	//fmt.Println(runtime.GOOS)
 
 	t := time.Now()
-	fileName = t.String() + ".xlsx"
-
-	//if runtime.GOOS == "linux" {
-	//	fileName = runPath + "/" + fileName
-	//} else {
-	//	fileName = runPath + "\\" + fileName
-	//}
+	fileName = runPathDir + string(os.PathSeparator) + t.String() + ".xlsx"
 
 	err = file.Save(fileName)
 	if err != nil {
