@@ -5,6 +5,10 @@ import (
 	"fmt"
 	"strconv"
 	"time"
+	"os/exec"
+	"path/filepath"
+	"os"
+	"runtime"
 )
 
 func SaveExcel(data []interface{}) (string, error) {
@@ -35,8 +39,20 @@ func SaveExcel(data []interface{}) (string, error) {
 		}
 	}
 
+
+	runFile, _ := exec.LookPath(os.Args[0])
+	runPath, _ := filepath.Abs(runFile)
+	fmt.Println(runPath)
+	fmt.Println(runtime.GOOS)
+
 	t := time.Now()
 	fileName = t.String() + ".xlsx"
+
+	//if runtime.GOOS == "linux" {
+	//	fileName = runPath + "/" + fileName
+	//} else {
+	//	fileName = runPath + "\\" + fileName
+	//}
 
 	err = file.Save(fileName)
 	if err != nil {
