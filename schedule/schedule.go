@@ -1,9 +1,6 @@
 package schedule
 
 import (
-	"fmt"
-	//"strconv"
-	//"strconv"
 	"math/rand"
 )
 
@@ -26,9 +23,6 @@ func (this *Schedule) create() []interface{} {
 	memberBucket := make([]Member, memberNum)
 	for i, name := range this.member {
 		memberBucket[i] = Member{name, timesEveryPerson}
-	}
-	for i, obj := range memberBucket {
-		fmt.Println(i, obj)
 	}
 
 	var result = make([]interface{}, this.totalDay)
@@ -61,7 +55,7 @@ func (this *Schedule) pick(memberBucket []Member) []string {
 
 			// 次数剩余最大的key是不是有多个
 			for key, member := range memberBucket {
-				if member.GetTimes() == maxkey && member.GetTimes() > 0 && notPicked(pickedKey, key) {
+				if member.GetTimes() == memberBucket[maxkey].GetTimes() && member.GetTimes() > 0 && notPicked(pickedKey, key) {
 					maxkeys = append(maxkeys, key)
 				}
 			}
