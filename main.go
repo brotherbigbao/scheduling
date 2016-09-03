@@ -8,6 +8,8 @@ import (
 	"bufio"
 	"os"
 	"github.com/dabao1989/scheduling/schedule"
+	"github.com/dabao1989/scheduling/save"
+	"github.com/gogits/gogs/modules/log"
 )
 
 func main() {
@@ -71,7 +73,13 @@ func main() {
 	for _, v := range result {
 		fmt.Println(v)
 	}
-	//fmt.Println(result)
+
+	fileName, err := save.SaveExcel(result)
+	if err != nil {
+		log.FATAL(err.Error())
+	}else{
+		fmt.Println("数据成功保存到:" + fileName + ", 再会")
+	}
 }
 
 func confirmMember() string {
