@@ -66,8 +66,12 @@ func main() {
 	fmt.Println("正在生成排班计划,请稍等...")
 
 	schedule := schedule.Schedule{}
-	schedule.Create(m, numsOneDay, totalDay)
-	return
+	result := schedule.Create(m, numsOneDay, totalDay)
+
+	for _, v := range result {
+		fmt.Println(v)
+	}
+	//fmt.Println(result)
 }
 
 func confirmMember() string {
